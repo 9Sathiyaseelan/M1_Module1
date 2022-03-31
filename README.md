@@ -2,4 +2,5 @@
 Naming convention: "Students Management Record"
 
 ## Badges
-*   CODACY static code analysis
+*   CODACY - Static Code Analysis
+*   CODIGA - Static Analysis
