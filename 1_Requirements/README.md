@@ -6,7 +6,7 @@
 
  This project “Hotel management system” gives us the complete information about the records of the customers available in any particular management. With this project we can maintain the customers datas and information for our daily needs and also for the future purposes.
 
-# OBJECTIVES:
+# OBJECTIVES
 
 a) To build a system that can receive input and generate automatically output in easy way and short time.
 
@@ -18,7 +18,7 @@ d) To store properly the Users Datas in order to maintain their security.
 
 e) To enter and preserve details of the various issues and keep a track on daily basis.
 
-# BENEFITS:
+# BENEFITS
 
 i)  Record Maintenance.
 
@@ -52,7 +52,7 @@ This project is implemented to do the costumer's datas adding, deleting or by ed
 
 
 # REQUIREMENTS
-# High Level Requirements:
+# High Level Requirements
 
 | RID | DESCRIPTION | STATUS |
 |:--:|:--------:|:----:|
@@ -63,7 +63,7 @@ This project is implemented to do the costumer's datas adding, deleting or by ed
 |HLR5|Ram 4GB|Implemented|
 
 
-# Low Level Requirements:
+# Low Level Requirements
 | RID | DESCRIPTION | STATUS |
 |:--:|:--------:|:----:|
 |LLR1|login module|Implemented|
