@@ -49,3 +49,26 @@ The Hotel Managements system is nowadays become more comfortable for mangerial d
 
 # How
 This project is implemented to do the costumer's datas adding, deleting or by editing the purpose to be gained by entering the managerial directors id as input.
+
+
+
+# REQUIREMENTS
+# High Level Requirements:
+
+| RID | DESCRIPTION | STATUS |
+|:--:|:--------:|:----:|
+|HLR1|C Language|Implemented|
+|HLR2|OS Windows|Implemented|
+|HLR3|OS Linux|Implemented|
+|HLR4|Harddisk|Implemented|
+|HLR5|Ram 4GB|Implemented|
+
+
+# Low Level Requirements:
+| RID | DESCRIPTION | STATUS |
+|:--:|:--------:|:----:|
+|LLR1|login module|Implemented|
+|LLR2|Add datas|Implemented|
+|LLR3|List datas|Implemented|
+|LLR4|Edit datas|Implemented|
+|LLR5|Delete datas|Implemented|
