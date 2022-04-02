@@ -33,7 +33,6 @@ v)  Increases Efficiency.
 vi)  Simple and Easy to Use.
 
 
-# 4W And 1H
 
 # Who
 The Hotel Management system is an application used by the managerial directors for their customers Benifits.
