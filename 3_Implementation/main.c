@@ -1,358 +1,266 @@
-#include <stdio.h>
-#include <string.h>
-#include <conio.h>
-#include <stdlib.h>
-#include <windows.h>
-
-struct student{
-    char ID[15];
-    char name[20];
-    char add[20];
-    char parname[20];
-    int Class;
-    long unsigned int phone_no;
-};
-
-struct student stu;
-
-void SetColor(int ForgC)
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+#include<math.h>
+void add(); 
+void list();
+void edit();
+void delete1();
+void search();
+void setcolor(int ForgC)
+{ WORD wColor;
+HANDLE hStdOut=GetStdHandle(STD_OUTPUT_HANDLE);
+CONSOLE_SCREEN_BUFFER_INFO csbi;
+if(GetConsoleScreenBufferInfo(hStdOut,&amp;csbi))
 {
-     WORD wColor;
-     HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-     CONSOLE_SCREEN_BUFFER_INFO csbi;
-
-     if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
-     {
-          wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F);
-          SetConsoleTextAttribute(hStdOut, wColor);
-     }
-     return;
+	wColor=(csbi.wAttributes &amp; 0xB0)+(ForgC &amp; 0x0B);
+	SetConsoleTextAttribute(hStdOut,wColor);
 }
-
-void ClearConsoleToColors(int ForgC, int BackC)
+}
+void login()
 {
-     WORD wColor = ((BackC & 0x0F) << 4) + (ForgC & 0x0F);
-     HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-     COORD coord = {0, 0};
-     DWORD count;
-     CONSOLE_SCREEN_BUFFER_INFO csbi;
-     SetConsoleTextAttribute(hStdOut, wColor);
-     if(GetConsoleScreenBufferInfo(hStdOut, &csbi))
-     {
-          FillConsoleOutputCharacter(hStdOut, (TCHAR) 32, csbi.dwSize.X * csbi.dwSize.Y, coord, &count);
-          FillConsoleOutputAttribute(hStdOut, csbi.wAttributes, csbi.dwSize.X * csbi.dwSize.Y, coord, &count );
-          SetConsoleCursorPosition(hStdOut, coord);
-     }
-     return;
-}
-
-void SetColorAndBackground(int ForgC, int BackC)
+	int a=0,i=0;
+    char uname&#91;10],c=' ';
+    char pword&#91;10],code&#91;10];
+    char user&#91;10]="user";
+    char pass&#91;10]="pass";
+    do
 {
-     WORD wColor = ((BackC & 0x0F) << 4) + (ForgC & 0x0F);;
-     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), wColor);
-     return;
+	system("cls");
+	printf("\n  **************************  LOGIN FORM  **************************  ");
+    printf(" \n                       ENTER USERNAME:-");
+	scanf("%s", &amp;uname);
+	printf(" \n                       ENTER PASSWORD:-");
+	while(i&lt;10)
+	{
+	    pword&#91;i]=getch();
+	    c=pword&#91;i];
+	    if(c==13) break;
+	    else printf("*");
+	    i++;
+	}
+	pword&#91;i]='\0';
+	i=0;
+		if(strcmp(uname,user)==0 &amp;&amp; strcmp(pword,pass)==0)
+	{
+	printf("  \n\n\n       WELCOME !!!! LOGIN IS SUCCESSFUL");
+	break;
+	}
+	else
+	{
+		printf("\n        SORRY !!!!  LOGIN IS UNSUCESSFUL");
+		a++;
+		getch();
+	}
 }
+	while(a&lt;=2);
+	if (a&gt;2)
+	{
+		printf("\nSorry you have entered the wrong username and password for four times!!!");
 
-COORD coord = {0,0}; 
-void gotoxy(int x, int y){
-    coord.X = x; coord.Y = y; 
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+		getch();
+
+		}
+		system("cls");
 }
-
-void drawRectangle(){
-    int i, j;
-    gotoxy(0,0);
-    printf("%c",201);
-    for(i = 1; i < 78; i++){
-        gotoxy(i, 0);
-        printf("%c",205);
-    }
-    gotoxy(78,0);
-    printf("%c",187);
-    for(i = 1; i < 25; i++){
-        gotoxy(78, i);
-        if(i == 6){
-            printf("%c",185);
-        }else{
-            printf("%c",186);
-        }
-    }
-    gotoxy(78, 25);
-    printf("%c",188);
-    for(i = 77; i > 0; i--){
-        gotoxy(i,25);
-        if(i == 35){
-            printf("%c",202);
-        }else{
-            printf("%c",205);
-        }
-    }
-    gotoxy(0,25);
-    printf("%c",200);
-    for(i = 24; i > 0; i--){
-        gotoxy(0,i);
-        if(i == 6){
-            printf("%c",204);
-        }else{
-            printf("%c",186);
-        }
-    }
-
-    for(i = 1; i < 78; i++){
-        gotoxy(i,6);
-        if(i == 35){
-            printf("%c",203);
-        }else{
-            printf("%c",205);
-        }
-    }
-
-    for(i = 7; i < 25; i++){
-        gotoxy(35,i);
-        printf("%c",186);
-    }
-
-}
-
-void clearWindow(){
-    int i,j;
-    for(i = 37; i < 78; i++){
-        for(j = 7; j < 25; j++){
-            gotoxy(i,j);printf(" ");
-        }
-    }
-    return;
-}
-
-void window(){
-    drawRectangle();
-    gotoxy(28,2);
-    SetColor(35);
-    printf("STUDENT RECORD SYSTEM");
-    gotoxy(20,3);
-    printf("SA University, Chennai, Tamil Nadu");
-    gotoxy(31,4);
-    printf("Estd.: 2014 B.S.");
-    gotoxy(25,24);
-    SetColor(17);
-
-}
-
-void get_password(char* pass)
+struct CustomerDetails  
 {
-    char temp_passP[25];
-    int i=0;
-     while(1)
-    {
-            temp_passP[i]=getch();
-            if(temp_passP[i]==13){break;}
-            else if(temp_passP[i]==8)
-            {
-                if(i!=0) {
-                printf("\b \b");
-                i--;
-                } else {printf("\a");}
-            }
-            else
-            {
-                printf("*");
-                *(pass+i) = temp_passP[i];
-                i++;
-            }
-             *(pass+i)='\0';
-     }
+	char roomnumber&#91;10];
+	char name&#91;20];
+	char address&#91;25];
+	char phonenumber&#91;15];
+	char nationality&#91;15];
+	char email&#91;20];
+	char period&#91;10];
+	char arrivaldate&#91;10];
+}s;
+int main(){ 
+	int i=0;
+	time_t t;
+	time(&amp;t);
+	char customername;
+	char choice;
+    login();
+    system("cls");
+	while (1)
+	{
+		system("cls");
+		setcolor(10);
+		 for(i=0;i&lt;80;i++)
+		printf("-");
+		printf("\n");
+		printf("   ******************************  |MAIN MENU|  ***************************** \n");
+		for(i=0;i&lt;80;i++)
+		printf("-");
+		printf("\n");
+		setcolor(10);
+		printf("\t\t *Please enter your choice for menu*:");
+		printf("\n\n");
+		printf(" \n Enter 1 -&gt; Book a room");
+		printf("\n------------------------");
+		printf(" \n Enter 2 -&gt; View Customer Record");
+		printf("\n----------------------------------");
+		printf(" \n Enter 3 -&gt; Delete Customer Record");
+		printf("\n-----------------------------------");
+		printf(" \n Enter 4 -&gt; Search Customer Record");
+		printf("\n-----------------------------------");
+		printf(" \n Enter 5 -&gt; Edit Record");
+		printf("\n-----------------------");
+		printf(" \n Enter 6 -&gt; Exit");
+		printf("\n-----------------");
+		printf("\n");
+		for(i=0;i&lt;80;i++)
+		printf("-");
+	    printf("\nCurrent date and time : %s",ctime(&amp;t));
+	    for(i=0;i&lt;80;i++)
+		printf("-");
+		choice=getche();
+		choice=toupper(choice);
+		switch(choice)           
+		{
+			case '1':
+				add();break;
+			case '2':
+				list();break;
+			case '3':
+				delete1();break;
+			case '4':
+				search();break;
+			case '5':
+				edit();break;
+			case '6':
+				system("cls");
+				printf("\n\n\t *****THANK YOU*****");
+				printf("\n\t FOR TRUSTING OUR SERVICE");
+				exit(0);
+				break;
+			default:
+				system("cls");
+				printf("Incorrect Input");
+				printf("\n Press any key to continue");
+				getch();
+		}
+	}
+}
+void add()
+{
+	FILE *f;
+	char test;
+	f=fopen("add.txt","a+");
+	if(f==0)
+	{   f=fopen("add.txt","w+");
+		system("cls");
+		printf("Please be patience while we set up!!");
+		printf("\n Process completed!!\n press any key to continue!! ");
+		getch();
+	}
+	while(1)
+	{
+		system("cls");
+		printf("\n Enter Customer Details:");
+		printf("\n**************************");
+		printf("\n Enter Room number:\n");
+		scanf("\n%s",s.roomnumber);
+		fflush(stdin);
+		printf("Enter Name:\n");
+		scanf("%s",s.name);
+		printf("Enter Address:\n");
+		scanf("%s",s.address);
+		printf("Enter Phone Number:\n");
+		scanf("%s",s.phonenumber);
+		printf("Enter Nationality:\n");
+		scanf("%s",s.nationality);
+		printf("Enter Email:\n");
+		scanf(" %s",s.email);
+		printf("Enter Period(\'x\'days):\n");
+		scanf("%s",&amp;s.period);
+		printf("Enter Arrival date(dd\\mm\\yyyy):\n");
+		scanf("%s",&amp;s.arrivaldate);
+		fwrite(&amp;s,sizeof(s),1,f);
+		fflush(stdin);
+		printf("\n\n1 Room is successfully booked!!");
+		printf("\n Press esc key to exit,  any other key to add another customer detail:");
+		test=getche();
+		if(test==27)
+			break;
+	}
+	fclose(f);
+}
+void list()
+{
+	FILE *f;
+	int i;
+	if((f=fopen("add.txt","r"))==NULL)
+		exit(0);
+	system("cls");
+	printf("ROOM    ");
+	printf("NAME\t ");
+	printf("\tADDRESS ");
+	printf("\tPHONENUMBER ");
+	printf("\tNATIONALITY ");
+	printf("\tEMAIL ");
+	printf("\t\t  PERIOD ");
+	printf("\t ARRIVALDATE \n");
+	for(i=0;i&lt;118;i++)
+		printf("-");
+	while(fread(&amp;s,sizeof(s),1,f)==1)
+	{
+		printf("\n%s \t%s \t\t%s \t\t%s \t%s  \t%s  \t     %s  \t  %s",s.roomnumber, s.name , s.address , s.phonenumber ,s.nationality ,s.email,s.period,  s.arrivaldate);
+	}
+	printf("\n");
+	for(i=0;i&lt;118;i++)
+		printf("-");
+
+	fclose(f);
+	getch();
+}
+void edit()
+{
+	FILE *f;
+	int k=1;
+	char roomnumber&#91;20];
+	long int size=sizeof(s);
+	if((f=fopen("add.txt","r+"))==NULL)
+		exit(0);
+	system("cls");
+	printf("Enter Room number of the customer to edit:\n\n");
+	scanf("%&#91;^\n]",roomnumber);
+	fflush(stdin);
+	while(fread(&amp;s,sizeof(s),1,f)==1)
+	{
+		if(strcmp(s.roomnumber,roomnumber)==0)
+		{
+			k=0;
+			printf("\nEnter Room Number     :");
+			gets(s.roomnumber);
+			printf("\nEnter Name    :");
+			fflush(stdin);
+			scanf("%s",&amp;s.name);
+			printf("\nEnter Address        :");
+			scanf("%s",&amp;s.address);
+			printf("\nEnter Phone number :");
+			scanf("%f",&amp;s.phonenumber);
+			printf("\nEnter Nationality :");
+			scanf("%s",&amp;s.nationality);
+			printf("\nEnter Email :");
+			scanf("%s",&amp;s.email);
+			printf("\nEnter Period :");
+			scanf("%s",&amp;s.period);
+			printf("\nEnter Arrival date :");
+			scanf("%s",&amp;s.arrivaldate);
+			fseek(f,size,SEEK_CUR); 
+			fwrite(&amp;s,sizeof(s),1,f);
+			break;
+		}
+	}
+	if(k==1){
+		printf("\n\nTHE RECORD DOESN'T EXIST!!!!");
+		fclose(f);
+		getch();
+	}else{
+	fclose(f);
+	printf("\n\n\t\tYOUR RECORD IS SUCCESSFULLY EDITED!!!");
+	getch();
+}
 }
 
-void use_pass_field(){
-    int x = 15, y = 16;
-    int use;
-    char pass[10];
-    SetColor(10);
-    gotoxy(15,12);printf("The database is password protected.");
-    gotoxy(15,13);printf(" Enter Valid username and password");
-    SetColor(17);
-    gotoxy(20,x);printf("USERNAME:- ");
-    gotoxy(20,y);printf("PASSWORD:- ");
-    gotoxy(34,x);scanf("%d",use);
-    gotoxy(34,y);get_password(pass);
-}
-
-void print_heading(const char st[]){
-    SetColorAndBackground(31,28);
-    gotoxy(45,8);printf("SRS : %s",st);
-    SetColorAndBackground(17,15);
-}
-
-int conf_record(char id[]){
-  
-}
-
-void add_student(){
-    clearWindow();
-    print_heading("Add Record");
-    int print = 37;
-    FILE *fp;
-    fp = fopen("record.txt","ab+");
-    SetColor(45);
-    if(fp == NULL){
-        MessageBox(0,"Error in Opening file\nMake sure your file is not write protected","Warning",0);
-
-    }else{
-        fflush(stdin);
-        gotoxy(print,10);printf("ID: ");gets(stu.ID);
-        //here you can confirms the ID
-        gotoxy(print,12);printf("Name: ");gets(stu.name);
-        gotoxy(print,14);printf("Address: ");gets(stu.add);
-        gotoxy(print,16);printf("Parent's name: ");gets(stu.parname);
-        gotoxy(print,18);printf("Class: ");scanf("%d",&stu.Class);
-        gotoxy(print,20);printf("Phone Number: ");scanf("%ld",&stu.phone_no);
-        fwrite(&stu, sizeof(stu), 1, fp);
-        gotoxy(40,22); printf("The record is sucessfully added");
-    }
-    SetColor(28);
-    fclose(fp);
-    return;
-}
-
-void search_student(){
-    clearWindow();
-    print_heading("Search Record");
-    SetColor(45);
-    char s_id[15];
-    int isFound = 0;
-    gotoxy(37,10);printf("Enter ID to Search: ");fflush(stdin);
-    gets(s_id);
-    FILE *fp;
-    fp = fopen("record.txt","rb");
-    while(fread(&stu,sizeof(stu),1,fp) == 1){
-        if(strcmp(s_id,stu.ID) == 0){
-            isFound = 1;
-            break;
-        }
-    }
-    if(isFound == 1){
-        gotoxy(37,12);printf("The record is Found");
-        gotoxy(37,14);printf("ID: %s",stu.ID);
-        gotoxy(37,15);printf("Name: %s",stu.name);
-        gotoxy(37,16);printf("Address: %s",stu.add);
-        gotoxy(37,17);printf("Parent's Name: %s",stu.parname);
-        gotoxy(37,18);printf("Class: %d",stu.Class);
-        gotoxy(37,19);printf("Phone No: %ld",stu.phone_no);
-    }else{
-        gotoxy(37,12);printf("Sory, No record found in the database");
-    }
-    SetColor(28);
-    fclose(fp);
-    return;
-}
-
-void mod_student(){
-    clearWindow();
-    print_heading("Modify Record");
-    SetColor(45);
-    char s_id[15];
-    int isFound = 0, print = 37;
-    gotoxy(37,10);printf("Enter ID to Modify: ");fflush(stdin);
-    gets(s_id);
-    FILE *fp;
-    fp = fopen("record.txt","rb+");
-    while(fread(&stu, sizeof(stu),1,fp) == 1){
-        if(strcmp(s_id, stu.ID) == 0){
-            fflush(stdin);
-            gotoxy(print,12);printf("ID: ");gets(stu.ID);
-            gotoxy(print,13);printf("Name: ");gets(stu.name);
-            gotoxy(print,14);printf("Address: ");gets(stu.add);
-            gotoxy(print,15);printf("Parent's name: ");gets(stu.parname);
-            gotoxy(print,16);printf("Class: ");scanf("%d",&stu.Class);
-            gotoxy(print,17);printf("Phone Number: ");scanf("%ld",&stu.phone_no);
-            fseek(fp,-sizeof(stu), SEEK_CUR);
-            fwrite(&stu,sizeof(stu), 1, fp);
-            isFound = 1;
-            break;
-        }
-    }
-    if(!isFound){
-        gotoxy(print, 12);printf("No Record Found");
-    }
-    fclose(fp);
-    SetColor(28);
-    return;
-}
-
-void gen_marksheet(){
-}
-
-void delete_student(){
-    clearWindow();
-    print_heading("Delete Record");
-    SetColor(45);
-    char s_id[15];
-    int isFound = 0, print = 37;
-    gotoxy(37,10);printf("Enter ID to Modify: ");fflush(stdin);
-    gets(s_id);
-    FILE *fp, *temp;
-    fp = fopen("record.txt","rb");
-    temp = fopen("temp.txt", "wb");
-    while(fread(&stu, sizeof(stu),1,fp) == 1){
-        if(strcmp(s_id, stu.ID) == 0){
-            fwrite(&stu,sizeof(stu),1,temp);
-        }
-    }
-    fclose(fp);
-    fclose(temp);
-    remove("record.txt");
-    rename("temp.txt","record.txt");
-    gotoxy(37,12);printf("The record is sucessfully deleted");
-    SetColor(28);
-    return;
-}
-
-void main_window(){
-    int choice;
-    SetColor(28);
-    int x = 2;
-    while(1){
-        gotoxy(x,8);printf("1. Add Student");
-        gotoxy(x,10);printf("2. Search Student");
-        gotoxy(x,12);printf("3. Modify Student Record");
-        gotoxy(x,14);printf("4. Generate Marksheet");
-        gotoxy(x,16);printf("5. Delete Student Record");
-        gotoxy(x,18);printf("6. Change password");
-        gotoxy(x,20);printf("7. Exit");
-        gotoxy(x,22);printf("Enter your choice: ");
-        scanf("%d",&choice);
-        switch(choice){
-            case 1:
-                add_student();
-                break;
-            case 2:
-                search_student();
-                break;
-            case 3:
-                mod_student();
-                break;
-            case 4:
-                break;
-            case 5:
-                delete_student();
-                break;
-            case 6:
-                break;
-            case 7:
-                exit(0);
-                break;
-            default:
-                break;
-        }
-
-    }
-
-}
-
-int main(){
-    ClearConsoleToColors(17,15);
-    SetConsoleTitle("Student Record System");
-    window();
-    main_window();
-    return 0;
-}
